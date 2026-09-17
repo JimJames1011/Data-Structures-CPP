@@ -31,6 +31,7 @@ void creatListR(LinkNode*& L, ElemType a[], int n) {
 		r->next = s;
 		r = s;
 	}
+	r->next = NULL;
 }
 
 //初始化线性表
@@ -95,23 +96,25 @@ bool GetElem(LinkNode*& L, int i, ElemType& e) {
 
 
 //求线性表中某个数据元素的位序
-int LocateList(LinkNode*& L, ElemType e, int i) {
-	int j = 0;
-	LinkNode* p = L->next;
-	while (p != NULL&&p->data!=e) {
-		p = p->next;
-		i++;
-	}
-	if (p == NULL)
-		return(0);
-	else
-		return(i);
+int LocateList(LinkNode*& L, ElemType e) {
+    int i = 1;
+    LinkNode* p = L->next;
+    while (p != NULL && p->data != e) {
+        p = p->next;
+        i++;
+    }
+    if (p == NULL)
+        return 0;
+    else
+        return i;
 }
 
 //在第i个位置插入数据元素e
 bool ListInsert(LinkNode*& L, int i, ElemType e) {
 	int j = 0;
 	LinkNode* s, * p = L;
+	if (i <= 0)
+    return false;
 	while (j < i - 1 && p != NULL) {
 		j++;
 		p = p->next;
@@ -139,9 +142,9 @@ bool ListDelete(LinkNode*& L, int i, ElemType& e) {
 		return false;
 	else {
 		s = p->next;
-		if (p == NULL)
+		if (s == NULL)
 			return false;
-		s->data = e;
+		e=s->data;
 		p->next = s->next;
 		free(s);
 		return true;
