@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-typedef int ElemType;
+typedef char ElemType;
 typedef struct LNode {
 	ElemType data;
 	struct LNode* next;
@@ -31,7 +31,6 @@ void creatListR(LinkNode*& L, ElemType a[], int n) {
 		r->next = s;
 		r = s;
 	}
-	r->next = NULL;
 }
 
 //初始化线性表
@@ -42,7 +41,7 @@ void InitList(LinkNode*& L) {
 
 //销毁线性表
 void DestoryList(LinkNode*& L) {
-	LinkNode* pre=L,*p=L->next;
+	LinkNode* pre = L, * p = L->next;
 	while (p != NULL) {
 		free(pre);
 		pre = p;
@@ -52,7 +51,7 @@ void DestoryList(LinkNode*& L) {
 }
 
 //判断线性表是否为空
-bool ListEmpty(LinkNode *L) {
+bool ListEmpty(LinkNode* L) {
 	return(L->next == NULL);
 }
 
@@ -60,7 +59,7 @@ bool ListEmpty(LinkNode *L) {
 int LengthList(LinkNode*& L) {
 	int len = 0;
 	LinkNode* p = L->next;
-	while (p != NULL){
+	while (p != NULL) {
 		len++;
 		p = p->next;
 	}
@@ -71,16 +70,17 @@ int LengthList(LinkNode*& L) {
 void DispList(LinkNode*& L) {
 	LinkNode* p = L->next;
 	while (p != NULL) {
-		cout << p->data << endl;
+		cout << p->data;
 		p = p->next;
 	}
+	printf("\n");
 }
 
 //求线性表中的某个数据元素值
 bool GetElem(LinkNode*& L, int i, ElemType& e) {
 	int j = 0;
 	LinkNode* p = L;
-	if (i <= 0 )
+	if (i <= 0)
 		return false;
 	while (j < i && p != NULL) {
 		p = p->next;
@@ -88,7 +88,7 @@ bool GetElem(LinkNode*& L, int i, ElemType& e) {
 	}
 	if (p == NULL)
 		return false;
-	else{
+	else {
 		e = p->data;
 		return true;
 	}
@@ -96,25 +96,23 @@ bool GetElem(LinkNode*& L, int i, ElemType& e) {
 
 
 //求线性表中某个数据元素的位序
-int LocateList(LinkNode*& L, ElemType e) {
-    int i = 1;
-    LinkNode* p = L->next;
-    while (p != NULL && p->data != e) {
-        p = p->next;
-        i++;
-    }
-    if (p == NULL)
-        return 0;
-    else
-        return i;
+int LocateList(LinkNode*& L, ElemType e, int i) {
+	int j = 0;
+	LinkNode* p = L->next;
+	while (p != NULL && p->data != e) {
+		p = p->next;
+		i++;
+	}
+	if (p == NULL)
+		return(0);
+	else
+		return(i);
 }
 
 //在第i个位置插入数据元素e
 bool ListInsert(LinkNode*& L, int i, ElemType e) {
 	int j = 0;
 	LinkNode* s, * p = L;
-	if (i <= 0)
-    return false;
 	while (j < i - 1 && p != NULL) {
 		j++;
 		p = p->next;
@@ -122,7 +120,7 @@ bool ListInsert(LinkNode*& L, int i, ElemType e) {
 	if (p == NULL)
 		return false;
 	else {
-		s = (LinkNode *)malloc(sizeof(LinkNode));
+		s = (LinkNode*)malloc(sizeof(LinkNode));
 		s->data = e;
 		s->next = p->next;
 		p->next = s;
@@ -142,21 +140,46 @@ bool ListDelete(LinkNode*& L, int i, ElemType& e) {
 		return false;
 	else {
 		s = p->next;
-		if (s == NULL)
+		if (p == NULL)
 			return false;
-		e=s->data;
+		s->data = e;
 		p->next = s->next;
 		free(s);
 		return true;
 	}
 }
 
+//删除最大值
+void maxdelete(LinkNode*& L) {
+	LinkNode* p = L->next
+		, * pre = L, * max = p, * maxpre = pre;
+	while (p != NULL) {
+		if (max->data < p->data) {
+			max = p;
+			maxpre = pre;
+		}
+		pre = p;
+		p = p->next;
+	}
+	maxpre->next = max->next;
+	free(max);
+}
 //主函数
 int main() {
 	LinkNode* L;
-	ElemType a[] = { 1,2,3,4,5 };
+	ElemType e;
+	InitList(L);
+	ElemType a[] = { 'a','b','c','d','e' };
 	creatListF(L, a, 5);
 	DispList(L);
-	creatListR(L, a, 5);
+	cout << LengthList(L) << endl;
+	ListEmpty(L) ? cout << "链表为空" << endl : cout << "链表不为空" << endl;
+	GetElem(L, 3, e) ? cout << "第3个元素为：" << e << endl : cout << "第3个元素不存在" << endl;
+	cout << LocateList(L, 'a', 1) << endl;
+	ListInsert(L, 4, 'f');
 	DispList(L);
+	ListDelete(L, 3, e);
+	DispList(L);
+	DestoryList(L);
 }
+
