@@ -142,6 +142,43 @@ bool GetElem(DLinkNode*& L, int i, ElemType& e) {
 	}
 }
 
+//双链表结点倒置算法
+void reverse(DLinkNode*& L) {
+	DLinkNode* p = L->next, * q;
+	L->next = NULL;
+	while (p != NULL) {
+		q = p->next;
+		p->next = L ->next;
+		if (L->next != NULL)
+			L->next->prior = p;
+	}
+	L->next = p;
+	p->prior = L;
+	p = q;
+}
+
+//双链表结点递增
+void sorr(DLinkNode*& L) {
+	DLinkNode* p, * pre, * q;
+	p = L->next->next;
+	L->next->next = NULL;
+	while (p != NULL) {
+		q = p->next;
+		pre = L;
+		while (pre->next != NULL && pre->next->data < p->data)
+		{
+			pre = pre->next;
+		}
+		p->next = pre->next;
+		if (pre->next != NULL)
+			pre->next->prior = p;
+		pre->next = p;
+		p->prior = pre;
+		p = q;
+	}
+}
+
+
 int main() {
 	
 }
