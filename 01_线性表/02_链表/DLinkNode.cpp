@@ -27,7 +27,7 @@ void CreateListF(DLinkNode*& L, ElemType a[], int n) {
 }
 
 //尾插法
-void createListR(DLinkNode * &L,ElemType a[],int n ){
+void CreateListR(DLinkNode * &L,ElemType a[],int n ){
 	DLinkNode* s, * r;
 	L = (DLinkNode*)malloc(sizeof(DLinkNode*));
 	r = L;
