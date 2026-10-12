@@ -76,3 +76,25 @@ bool symmetry(ElemType str[]) {
 	DestoryStack(st);
 	return true;
 }
+//判断出栈顺序是否合法
+bool Vaildseq(int a[], int n) {
+	int i, e, k = 0;
+	bool flag;
+	SqStack st;
+	InitStack(st);
+	for (i = 1; i <= n; i++) {
+		Push(st, i);
+		while (!StackEmpty(st)) {
+			GetTop(st, e);
+			if (e == a[k]) {
+				k++;
+				Pop(st, e);
+			} else {
+				break;
+			}
+		}
+	}
+	flag = StackEmpty(st);
+	DestoryStack(st);
+	return flag;
+}
